@@ -6,6 +6,33 @@ return {
 	{ "editorconfig/editorconfig-vim" },
 	{ "tpope/vim-repeat" },
 	{
+		"echasnovski/mini.bufremove",
+		keys = {
+			{
+				"<S-d>",
+				function()
+					local bd = require("mini.bufremove").delete
+					if vim.bo.modified then
+						local choice = vim.fn.confirm(
+							("Save changes to %q?"):format(vim.fn.bufname()),
+							"&Yes\n&No\n&Cancel")
+						if choice == 1 then -- Yes
+							vim.cmd.write()
+							bd(0)
+						elseif choice == 2 then -- No
+							bd(0, true)
+						end
+					else
+						bd(0)
+					end
+				end,
+				desc = "Delete Buffer",
+			},
+			-- stylua: ignore
+			{ "<S-d>", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
+		},
+	},
+	{
 		'smoka7/hop.nvim',
 		version = "*",
 		opts = {},
@@ -66,5 +93,29 @@ return {
 				},
 			},
 		},
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("nvim-tree").setup {
+				respect_buf_cwd = true,
+				view = {
+					side = "right",
+				},
+				renderer = {
+					full_name = true,
+				},
+				actions = {
+					change_dir = {
+						global = true,
+					},
+				},
+			}
+		end,
 	},
 }

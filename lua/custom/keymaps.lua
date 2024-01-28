@@ -9,7 +9,7 @@ keymap.set("n", "<C-\\>", "<Cmd>TmuxNavigateLastActive<CR>", { silent = true })
 keymap.set("n", "<C-Space>", "<Cmd>TmuxNavigateNavigateNext<CR>", { silent = true })
 
 -- open file explorer
-keymap.set("n", "<leader>e", "<Cmd>Explore<CR>")
+keymap.set("n", "<leader>e", "<Cmd>NvimtreeToggle<CR>")
 
 -- select the word
 keymap.set("n", "sc", "viw")
@@ -37,9 +37,6 @@ keymap.set("n", "<C-s>", "<Cmd>w<CR>")
 
 keymap.set('n', 'sc', function()
 	vim.cmd([[:HopWord]])
-	vim.schedule(function()
-		vim.cmd([[startinsert]])
-	end)
 end)
 
 -- Split window
